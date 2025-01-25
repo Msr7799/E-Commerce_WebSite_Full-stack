@@ -1,4 +1,5 @@
-<h1 align="center">E-Commerce Store 🛒</h1>
+# E-Commerce Store 🛒
+<p align="center">Welcome to our E-Commerce Store Website!</p>
 
 ## About This App:
 
