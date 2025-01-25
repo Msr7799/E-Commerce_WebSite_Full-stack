@@ -1,0 +1,56 @@
+:root {
+  --color-primary: #000000;
+  --color-secondary: #a3673c;
+  --color-accent: #d3cdc5;
+  --color-background: #737477;
+  --color-surface: #505358;
+  --text-color-light: #000000; /* لون الخط في الوضع النهاري */
+  --text-color-dark: #F5F5F5;  /* لون الخط في الوضع الليلي */
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-day {
+    background-image: url('/src/components/assets/light.png');
+    transition: background-image 1s ease-in-out, opacity 1s ease-in-out;
+    opacity: 1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(1.2);
+}
+
+.bg-night {
+    background-image: url('/src/components/assets/darky.gif');
+    transition: background-image 1s ease-in-out, opacity 1s ease-in-out;
+    opacity: 1;
+    background-size:cover;
+    background-position:center ;
+    background-repeat: no-repeat;
+    filter: brightness(0.6);
+}
+
+.transition-colors {
+    transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+
+.bg-light {
+    background: var(--color-background);
+}
+
+.bg-dark {
+    background: var(--color-surface);
+}
+
+/* النص في الوضع النهاري */
+.text-light {
+    color: var(--text-color-light);
+}
+
+/* النص في الوضع الليلي */
+.text-dark {
+    color: var(--text-color-dark);
+}
+
