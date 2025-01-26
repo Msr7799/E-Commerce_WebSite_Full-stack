@@ -1,3 +1,5 @@
+@import "mdb-ui-kit/css/mdb.min.css";
+
 :root {
   --color-primary: #000000;
   --color-secondary: #a3673c;
@@ -13,7 +15,7 @@
 @tailwind utilities;
 
 .bg-day {
-    background-image: url('/src/components/assets/light.png');
+    background-image: url('/public/assets/light.png');
     transition: background-image 1s ease-in-out, opacity 1s ease-in-out;
     opacity: 1;
     background-size: cover;
@@ -23,7 +25,7 @@
 }
 
 .bg-night {
-    background-image: url('/src/components/assets/darky.gif');
+    background-image: url('/public/assets/darky.gif');
     transition: background-image 1s ease-in-out, opacity 1s ease-in-out;
     opacity: 1;
     background-size:cover;
@@ -46,11 +48,11 @@
 
 /* النص في الوضع النهاري */
 .text-light {
-    color: var(--text-color-light);
+    color: var(--text-color-dark);
 }
 
 /* النص في الوضع الليلي */
 .text-dark {
-    color: var(--text-color-dark);
+    color: var(--text-color-light);
 }
 

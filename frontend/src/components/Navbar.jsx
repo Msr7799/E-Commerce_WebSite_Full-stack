@@ -14,7 +14,7 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
             <div className='container mx-auto px-4 py-3'>
                 <div className='flex flex-wrap justify-between items-center'>
                     <Link to='/' className='text-2xl font-bold text-stone-950 hover:text-gray-800 items-center space-x-2 flex'>
-                    <img src="/src/components/assets/dark.gif" alt="Eco-Friendly Fashion" className="w-27 h-24" />
+                    <img src="/public/assets/dark.gif" alt="Eco-Friendly Fashion" className="w-27 h-24" />
                     </Link>
 
                     <nav className='flex flex-wrap items-center gap-4'>
