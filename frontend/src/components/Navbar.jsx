@@ -10,11 +10,12 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
     const { cart } = useCartStore();
     
     return (
-        <header className='fixed top-0 left-0 w-full bg-gray-500 bg-opacity-90 backdrop-blur-sm shadow-xl z-40 transition-all duration-300 border-b-4 border-stone-950'>
+        <header className='fixed top-0 left-0 w-full h-21 bg-gray-500 bg-opacity-90 backdrop-blur-sm shadow-xl z-40 transition-all duration-300 border-b-4 border-stone-950'>
             <div className='container mx-auto px-4 py-3'>
                 <div className='flex flex-wrap justify-between items-center'>
-                    <Link to='/' className='text-2xl font-bold text-stone-950 hover:text-gray-800 items-center space-x-2 flex'>
-                    <img src="/public/assets/dark.gif" alt="Eco-Friendly Fashion" className="w-27 h-24" />
+                    <Link to='/' className='text-2xl font-bold text-stone-950 hover:text-gray-800 items-center  space-x-2 flex'>
+                    <img src={isDarkMode ? "/dark.gif" : "/light.gif"} alt="Fashion" className="w-20 h-22" />
+
                     </Link>
 
                     <nav className='flex flex-wrap items-center gap-4'>
@@ -54,12 +55,7 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
                             </Link>
                         )}
 
-                        <button
-                            onClick={toggleTheme}
-                            className='bg-gray-800 p-2 rounded-full text-gray-400 hover:text-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'
-                        >
-                            {isDarkMode ? <FaSun size={18} /> : <FaMoon size={18} />}
-                        </button>
+                    
 
                         {user ? (
                             <button
@@ -89,8 +85,17 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
                                     <LogIn className='mr-2' size={18} />
                                     Login
                                 </Link>
+                              
                             </>
+                            
                         )}
+                        
+                            <button
+                            onClick={toggleTheme}
+                            className='bg-gray-800 p-2 rounded-full text-gray-400 hover:text-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'
+                        >
+                            {isDarkMode ? <FaSun size={18} /> : <FaMoon size={18} />}
+                        </button>
                     </nav>
                 </div>
             </div>

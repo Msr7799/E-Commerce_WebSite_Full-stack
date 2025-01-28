@@ -1,13 +1,116 @@
 @import "mdb-ui-kit/css/mdb.min.css";
 
+
+/* <uniquifier>: Use a unique and descriptive class name*/
+/* <weight>: Use a value from 100 to 700*/
+
+p{
+    font-family: "Cinzel", serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    font-size: large !important;
+
+    color: linergradient(to right, #c2c2c2, #ffffff) !important;
+
+    /* جعل المسافات بين الحروف أكبر */
+    letter-spacing: 1px;
+    /* جعل الحروف أكبر */
+    font-size: 1.5rem !important;
+    /* ��عل النص ي��هر بشكل أفضل */
+    text-rendering:geometricPrecision;
+    /* جعل مسافات بين السطور الجمله  */
+    line-height: 1.4rem !important;
+    /* جعل النص يظهر بشكل أفضل */
+    -webkit-font-smoothing: antialiased;
+    /* ��عل النص ي��هر بشكل أفضل */
+    -moz-osx-font-smoothing: grayscale;
+    /* ��عل النص ي��هر بشكل أفضل */
+    -webkit-text-stroke: 1px rgba(7, 7, 7, 0.788) !important;
+    /* ��عل النص ي��هر بشكل أفضل */
+    -webkit-text-stroke: 1px rgba(13, 13, 13, 0.153) !important;
+    text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.312) !important;
+    padding-left : 20px;
+  
+}
+
+
+h1 , h2 , h3 , h4 , h5 , h6 , label , button , a ,span{
+   
+    font-family: "Cinzel", serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+/* جعل النص يظهر بشكل أفضل */
+ text-rendering: optimizeLegibility;
+/* جعل النص يظهر بشكل أفضل */
+ -webkit-font-smoothing: antialiased;
+/* ��عل النص ي��هر بشكل أفضل */
+ -moz-osx-font-smoothing: grayscale;
+/* ��عل النص ي��هر بشكل أفضل */
+ -webkit-text-stroke: 1px rgba(0, 0, 0, 0.103);
+ 
+}
+ p{
+    backdrop-filter:brightness(1.5) blur(10px) !important;
+    padding-top: 20px;
+    padding-bottom: 15px;
+    border-radius: 20px;
+    animation: fadeOut 5s;
+    /* loop fadeOut cosntlly */
+    @keyframes fadeOut {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    p::before {
+        content:counter(name);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height:  100%;
+        background-image: linear-gradient(to right, var(--text-color-highlight), var(--text-color-highlight2));
+        opacity: 0;
+        animation: fadeOut 2s infinite;
+        /* loop fadeOut cosntlly */
+        @keyframes fadeOut {
+            0% { opacity: 0; }
+            100% { opacity: 0; }
+
+        }
+    }
+    p::after {
+
+        content: counter(name);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to right, var(--color-secondary), var(--text-color-dark));
+        opacity: 0;
+        animation: fadeOut 2s infinite;
+        /* loop fadeOut cosntlly */
+        @keyframes fadeOut {
+            0% { opacity: 0; }
+            100% { opacity: 2; }
+        }
+    }
+}
+
+
 :root {
   --color-primary: #000000;
   --color-secondary: #a3673c;
   --color-accent: #d3cdc5;
   --color-background: #737477;
   --color-surface: #505358;
-  --text-color-light: #000000; /* لون الخط في الوضع النهاري */
-  --text-color-dark: #F5F5F5;  /* لون الخط في الوضع الليلي */
+  --text-color-light: #050404;
+  --text-color-dark: #F5F5F5;  
+  --text-color-highlight:  #E7E3D5;
+  --text-color-highlight2: #5c7687;
+  --border-color-highlight: #dde1e3c4;
+  --backdrop-filter: #dde1e3c4;
 }
 
 @tailwind base;
@@ -15,21 +118,21 @@
 @tailwind utilities;
 
 .bg-day {
-    background-image: url('/public/assets/light.png');
+    background-image: url('/13.gif');
     transition: background-image 1s ease-in-out, opacity 1s ease-in-out;
     opacity: 1;
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
     filter: brightness(1.2);
+
 }
 
 .bg-night {
-    background-image: url('/public/assets/darky.gif');
+    background-color:#000000eb;
     transition: background-image 1s ease-in-out, opacity 1s ease-in-out;
     opacity: 1;
-    background-size:cover;
-    background-position:center ;
+    background-size: 160%auto;
+    background-position: bottom;
     background-repeat: no-repeat;
     filter: brightness(0.6);
 }
@@ -46,13 +149,33 @@
     background: var(--color-surface);
 }
 
-/* النص في الوضع النهاري */
 .text-light {
     color: var(--text-color-dark);
 }
 
-/* النص في الوضع الليلي */
+.border-highlight {
+    border-color: var(--border-color-highlight);
+}
 .text-dark {
     color: var(--text-color-light);
 }
+.text-highlight {
+    color: var(--text-color-highlight);
+}
 
+.text-highlight2 {
+    color: var(--text-color-highlight2);
+}
+
+body {
+    padding-top: 80px; 
+  }
+  
+  .container {
+    padding-top: 20px;
+  }
+
+  .carousel-image {
+    height: 500px; /* يمكنك ضبط الارتفاع حسب الحاجة */
+    object-fit: cover;
+  }

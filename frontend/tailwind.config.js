@@ -6,7 +6,7 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: '#1E40AF', // لون أزرق غامق
+                primary: '#000', // لون أزرق غامق
                 secondary: '#F97316', // لون برتقالي
                 accent: '#D97708', // لون أصفر
                 background: '#1E293B', // لون رمادي داكن

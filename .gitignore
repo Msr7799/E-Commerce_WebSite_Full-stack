@@ -12,12 +12,10 @@ dist
 dist-ssr
 *.local
 
-#yarn.lock
-yarn.lock
-frontend/yarn.lock
 
 #.env
 .env
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
