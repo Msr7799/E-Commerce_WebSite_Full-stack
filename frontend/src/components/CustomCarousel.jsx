@@ -71,6 +71,18 @@ const CustomCarousel = () => {
           data-mdb-slide-to="8"
           aria-label="Slide 9"
         ></button>
+        <button
+          type="button"
+          data-mdb-target="#carouselBasicExample"
+          data-mdb-slide-to="9" //New slide 1
+          aria-label="Slide 10"
+        ></button>
+        <button
+          type="button"
+          data-mdb-target="#carouselBasicExample"
+          data-mdb-slide-to="10" //New slide 2
+          aria-label="Slide 11"
+        ></button>
       </div>
 
       {/* Inner */}
@@ -163,7 +175,7 @@ const CustomCarousel = () => {
           <img
             src="/5.png"
             className="d-block w-100 carousel-image"
-            alt="Sample slide" 
+            alt="Sample slide"
             style={{ height: "100%", maxHeight: "600px", objectFit: "cover", width: "100%" }}
           />
           <div className="carousel-caption d-none d-md-block">
@@ -182,6 +194,32 @@ const CustomCarousel = () => {
             <h5>Ninth slide label</h5>
           </div>
         </div>
+        
+        {/* New Slide 1 */}
+        <div className="carousel-item">
+          <img
+            src="/New7.png"
+            className="d-block w-100 carousel-image"
+            alt="Sample slide"
+            style={{ height: "100%", maxHeight: "600px", objectFit: "cover", width: "100%" }}
+          />
+          <div className="carousel-caption d-none d-md-block">
+            <h5>Tenth slide label</h5>
+          </div>
+        </div>
+
+        {/* New Slide 2 */}
+        <div className="carousel-item">
+          <img
+            src="/New7.png"
+            className="d-block w-100 carousel-image"
+            alt="Sample slide"
+            style={{ height: "100%", maxHeight: "600px", objectFit: "cover", width: "100%" }}
+          />
+          <div className="carousel-caption d-none d-md-block">
+            <h5>Eleventh slide label</h5>
+          </div>
+        </div>    
       </div>
 
       {/* Controls */}

@@ -31,7 +31,6 @@ const HomePage = ({ isDarkMode }) => {
         fetchFeaturedProducts();
         initMDB({ Carousel });
     }, [fetchFeaturedProducts]);
-       /* Fanction user Admin he can fetch and see this two Category IN THE CONST CATEGORY FIRST ONE ADMIN AD THE OTHER ONE IS ADMIN STORE   */   
        
     return (
              <div className={`relative min-h-screen overflow-hidden ${isDarkMode ? 'text-light' : 'text-dark'} transition-colors duration-500`}>

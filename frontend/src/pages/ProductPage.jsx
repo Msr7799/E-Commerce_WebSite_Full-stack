@@ -28,7 +28,7 @@ const ProductPage = () => {
   }, [id]);
 
   useEffect(() => {
-    if (product) {
+    if (productId) {
       const fetchRecommendations = async () => {
         try {
           const res = await axios.get(`/products/recommendations?category=${product.category}`);
@@ -40,7 +40,7 @@ const ProductPage = () => {
 
       fetchRecommendations();
     }
-  }, [product]);
+  }, [productId]);
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
@@ -55,7 +55,7 @@ const ProductPage = () => {
   };
 
 
-  if (!product) return <div>Loading...</div>;
+  if (!productId) return <div>Loading...</div>;
 
   return (
     <div className='container mx-auto px-4 py-16'>

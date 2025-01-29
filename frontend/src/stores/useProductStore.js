@@ -40,6 +40,17 @@ export const useProductStore = create((set) => ({
 			toast.error(error.response.data.error || "Failed to fetch products");
 		}
 	},
+	getProductById: async (productId) => {
+		set({ loading: true });
+        try {
+            const response = await axios.get(`/products/${productId}`);
+            return response.data;
+        } catch (error) {
+            toast.error(error.response.data.error);
+            return null;
+        }
+    },
+	
 	deleteProduct: async (productId) => {
 		set({ loading: true });
 		try {

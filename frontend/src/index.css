@@ -4,6 +4,17 @@
 /* <uniquifier>: Use a unique and descriptive class name*/
 /* <weight>: Use a value from 100 to 700*/
 
+html {
+  min-height: 100%;
+  height: 100svh;
+  width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #000000 !important;
+}
+
+
+
 p{
     font-family: "Cinzel", serif;
     font-optical-sizing: auto;
@@ -41,64 +52,15 @@ h1 , h2 , h3 , h4 , h5 , h6 , label , button , a ,span{
     font-optical-sizing: auto;
     font-weight: 600;
     font-style: normal;
-/* جعل النص يظهر بشكل أفضل */
- text-rendering: optimizeLegibility;
-/* جعل النص يظهر بشكل أفضل */
- -webkit-font-smoothing: antialiased;
-/* ��عل النص ي��هر بشكل أفضل */
- -moz-osx-font-smoothing: grayscale;
-/* ��عل النص ي��هر بشكل أفضل */
- -webkit-text-stroke: 1px rgba(0, 0, 0, 0.103);
- 
-}
- p{
-    backdrop-filter:brightness(1.5) blur(10px) !important;
-    padding-top: 20px;
-    padding-bottom: 15px;
-    border-radius: 20px;
-    animation: fadeOut 5s;
-    /* loop fadeOut cosntlly */
-    @keyframes fadeOut {
-        0% { opacity: 1; }
-        100% { opacity: 0; }
-    }
-    p::before {
-        content:counter(name);
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height:  100%;
-        background-image: linear-gradient(to right, var(--text-color-highlight), var(--text-color-highlight2));
-        opacity: 0;
-        animation: fadeOut 2s infinite;
-        /* loop fadeOut cosntlly */
-        @keyframes fadeOut {
-            0% { opacity: 0; }
-            100% { opacity: 0; }
 
-        }
-    }
-    p::after {
-
-        content: counter(name);
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: linear-gradient(to right, var(--color-secondary), var(--text-color-dark));
-        opacity: 0;
-        animation: fadeOut 2s infinite;
-        /* loop fadeOut cosntlly */
-        @keyframes fadeOut {
-            0% { opacity: 0; }
-            100% { opacity: 2; }
-        }
-    }
+    /* تحسين ظهور النص */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.103);
 }
 
-
+/* تعريف الألوان في المتغيرات */
 :root {
   --color-primary: #000000;
   --color-secondary: #a3673c;
@@ -113,34 +75,45 @@ h1 , h2 , h3 , h4 , h5 , h6 , label , button , a ,span{
   --backdrop-filter: #dde1e3c4;
 }
 
+/* دعم Tailwind */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* الخلفيات */
 .bg-day {
-    background-image: url('/13.gif');
+    background-image: url('/light3.png');
     transition: background-image 1s ease-in-out, opacity 1s ease-in-out;
-    opacity: 1;
+    opacity: 0.8;
     background-size: cover;
     background-position: center;
-    filter: brightness(1.2);
+    background-repeat: no-repeat;
+    /*توضيح الصوره وجعلها عالية الدقه */
+    background-blend-mode: overlay;
+    filter: brightness(1.0);
+    
+    image-rendering: optimizeQuality;
 
 }
 
 .bg-night {
-    background-color:#000000eb;
+    background-image: url( '/darkly.png');
     transition: background-image 1s ease-in-out, opacity 1s ease-in-out;
-    opacity: 1;
-    background-size: 160%auto;
-    background-position: bottom;
+    opacity: 0.8;
+    background-size:  cover;
+    background-position: center;
     background-repeat: no-repeat;
-    filter: brightness(0.6);
+    /*توضيح الصوره وجعلها عالية الدقه */
+    background-blend-mode: overlay;
+    filter: brightness(1.4);
 }
 
+/* انتقال الألوان */
 .transition-colors {
     transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 
+/* ألوان الخلفيات */
 .bg-light {
     background: var(--color-background);
 }
@@ -149,6 +122,7 @@ h1 , h2 , h3 , h4 , h5 , h6 , label , button , a ,span{
     background: var(--color-surface);
 }
 
+/* ألوان النصوص */
 .text-light {
     color: var(--text-color-dark);
 }
@@ -159,6 +133,7 @@ h1 , h2 , h3 , h4 , h5 , h6 , label , button , a ,span{
 .text-dark {
     color: var(--text-color-light);
 }
+
 .text-highlight {
     color: var(--text-color-highlight);
 }
@@ -179,3 +154,34 @@ body {
     height: 500px; /* يمكنك ضبط الارتفاع حسب الحاجة */
     object-fit: cover;
   }
+
+  @media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom : 45px ;
+            width :     60%;
+    }
+
+    .navbar .flex {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar .space-x-6 {
+        margin-top: 30px;
+    }
+
+    .navbar form {
+        width: 70%;
+        margin-top: 10px;
+    }
+
+    .navbar form input {
+        width: calc(70% - 40px);
+    }
+
+    .navbar form button {
+        right: 10px;
+    }
+}
