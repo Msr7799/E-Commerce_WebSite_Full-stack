@@ -1,7 +1,10 @@
 # E-Commerce Store 🛒
-<p align="center">Welcome to our E-Commerce Store Website!</p>
 
-## About This App:
+![E-Commerce](./MERN2.png)
+
+**Welcome to our E-Commerce Store Website!**
+
+## About This App
 
 Welcome to our E-Commerce Store! This app offers a seamless shopping experience with easy project setup and robust security features. Enjoy smooth MongoDB and Redis integration, along with a secure authentication system using JWT with refresh/access tokens. Users can effortlessly register and log in, manage products and categories, and utilize an intuitive shopping cart. Checkout is hassle-free with Stripe, and the app supports flexible coupon codes. Admins have access to a powerful dashboard with detailed sales analytics. The stylish design is powered by Tailwind, and the app ensures enhanced security and robust data protection. Experience fast caching with Redis and much more!
 
@@ -43,16 +46,3 @@ CLOUDINARY_API_SECRET=your_api_secret
 STRIPE_SECRET_KEY=your_stripe_secret_key
 CLIENT_URL=http://localhost:5173
 NODE_ENV=development
-```
-
-## Run this app locally
-
-```shell
-npm run build
-```
-
-## Start the app
-
-```shell
-npm run start
-```
