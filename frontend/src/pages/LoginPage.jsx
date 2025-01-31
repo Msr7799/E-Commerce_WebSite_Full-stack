@@ -9,7 +9,6 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const { login, loading, user } = useUserStore();
 
-  // تحقق من الـ user للحصول على الوضع الليلي لتغيير الأنماط
   const isDarkMode = user?.isDarkMode || false;
 
   const handleSubmit = (e) => {
@@ -19,16 +18,18 @@ const LoginPage = () => {
   };
 
   return (
-    <div className='flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
+    <div className='flex flex-col justify-center py-12 sm:px-6 lg:px-8 mt-52'>
       <motion.div
         className='sm:mx-auto sm:w-full sm:max-w-md'
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <h1 className='mt-6 text-center text-3xl font-extrabold text-highlight2'>
+        <span>
+        <strong className={`mt-6 text-center flex text-5xl font-extrabold ${isDarkMode ? 'text-white' : 'text-gray-700'}`}>
           Create your account
-        </h1>
+        </strong>
+        </span>
       </motion.div>
 
       <motion.div
@@ -40,7 +41,10 @@ const LoginPage = () => {
         <div className='bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10'>
           <form onSubmit={handleSubmit} className='space-y-6'>
             <div>
-              <label htmlFor='email' className='block text-sm font-medium text-gray-300'>
+              <label
+                htmlFor='email'
+                className='block text-sm font-medium text-gray-300'
+              >
                 Email address
               </label>
               <div className='mt-1 relative rounded-md shadow-sm'>
@@ -52,7 +56,7 @@ const LoginPage = () => {
                   type='email'
                   required
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
                   className='block w-full px-5 py-2 pl-3 bg-gray-700 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
                   placeholder='you@example.com'
                 />
@@ -60,7 +64,10 @@ const LoginPage = () => {
             </div>
 
             <div>
-              <label htmlFor='password' className='block text-sm font-medium text-gray-300'>
+              <label
+                htmlFor='password'
+                className='block text-sm font-medium text-gray-300'
+              >
                 Password
               </label>
               <div className='mt-1 relative rounded-md shadow-sm'>
@@ -72,7 +79,7 @@ const LoginPage = () => {
                   type='password'
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={e => setPassword(e.target.value)}
                   className='block w-full px-6 py-2 pl-10 bg-gray-700 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
                   placeholder='••••••••'
                 />
@@ -86,7 +93,10 @@ const LoginPage = () => {
             >
               {loading ? (
                 <>
-                  <Loader className='mr-2 h-5 w-5 animate-spin' aria-hidden='true' />
+                  <Loader
+                    className='mr-2 h-5 w-5 animate-spin'
+                    aria-hidden='true'
+                  />
                   Loading...
                 </>
               ) : (
@@ -99,8 +109,11 @@ const LoginPage = () => {
           </form>
 
           <p className='mt-8 text-center text-sm text-gray-400'>
-            Not a member?{" "}
-            <Link to='/signup' className='font-medium text-blue-400 hover:text-blue-300'>
+            Not a member?{' '}
+            <Link
+              to='/signup'
+              className='font-medium text-blue-400 hover:text-blue-300'
+            >
               Sign up now <ArrowRight className='inline h-4 w-4' />
             </Link>
           </p>

@@ -1,24 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Home, Lock, LogIn, LogOut, ShoppingCart, Search } from 'lucide-react';
 import { FaSun, FaMoon } from 'react-icons/fa';
 
 const NavbarShort = ({ user, isAdmin, logout, onSearch, isDarkMode, toggleTheme }) => {
     const [searchQuery, setSearchQuery] = useState('');
+    const navigate = useNavigate();
 
     const handleSearch = (e) => {
-        e.preventDefault();
-        if (onSearch) {
-            onSearch(searchQuery);
-        }
+      e.preventDefault();
+      if (onSearch) {
+        onSearch(searchQuery);
+      }
+      navigate(`/search/${searchQuery}`);
     };
-
     return (
-        <nav className='fixed h-20 top-4 left-1/2 mt-20 transform -translate-x-1/2  bg-gray-950 bg-opacity-55 backdrop-blur-3xl px-6 py-3 rounded-full flex items-center justify-between space-x-6 shadow-4x2 border-4 border-gray-300 w-full max-w-5xl'>
+        <nav id="nav" className='fixed h-20 top-4 left-1/2 mt-20 transform -translate-x-1/2  bg-gray-950 bg-opacity-55 backdrop-blur-3xl px-6 py-3 rounded-full flex items-center justify-between space-x-6 shadow-inherit shadow-2xl border-4 border-gray-300 w-full max-w-5xl'>
+         
             <div className='flex items-center space-x-2'>
                 <Link
                     to='/'
-                    className='text-2xl font-bold flex items-center space-x-2 hover:text-white transition duration-300'
+                    className={`text-2xl font-bold flex items-center space-x-2  hover:duration-700 hover:scale-125 ${isDarkMode ? 'text-gray-200' : 'text-stone-300'}`}
                 >
                     <Home size={24} className='hover:backdrop-brightness-200 backdrop-brightness-100 transition duration-300' />
                 </Link>
@@ -26,7 +28,7 @@ const NavbarShort = ({ user, isAdmin, logout, onSearch, isDarkMode, toggleTheme 
                     <img src={isDarkMode ? "/dark.gif" : "/light.gif"} alt="Fashion" className="w-20 h-22" />
                 </Link>
             </div>
-
+            
             <form onSubmit={handleSearch} className='flex items-center relative flex-grow max-w-xs'>
                 <input
                     type='text'
@@ -90,6 +92,7 @@ const NavbarShort = ({ user, isAdmin, logout, onSearch, isDarkMode, toggleTheme 
                     </Link>
                 )}
             </div>
+            
         </nav>
     );
 };

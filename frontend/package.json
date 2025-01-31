@@ -12,6 +12,7 @@
 	"dependencies": {
 		"@stripe/stripe-js": "^4.3.0",
 		"@tailwindcss/forms": "^0.5.10",
+		"@tanstack/react-query": "^5.65.1",
 		"axios": "^1.7.5",
 		"bootstrap": "^5.3.3",
 		"e-commerce-store": "file:..",
