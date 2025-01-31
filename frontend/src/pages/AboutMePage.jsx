@@ -2,12 +2,25 @@ import React from 'react';
 
 const AboutMePage = () => {
   return (
-    <div className='container mx-auto px-4 py-10'>
+    <div className='container mt-42 mx-auto px-4 mt-40 py-10'>
       <div className='max-w-3xl mx-auto text-black bg-white shadow-lg rounded-lg p-6'>
-        <h1 className='text-3xl font-bold mb-4 text-center'>
-          About Me
-        </h1>
-        <div className='mb-4 text-center'>
+        <h1 className='text-3xl font-bold mb-4 text-center'>About Me</h1>
+
+        {/* My profile picture */}
+        <div className='flex justify-center'>
+          <div style={{ position: 'relative', width: '100%', height: 0, paddingTop: '56.25%', paddingBottom: 0, boxShadow: '0 2px 8px 0 rgba(63,69,81,0.16)', marginTop: '1.6em', marginBottom: '0.9em', overflow: 'hidden', borderRadius: '8px', willChange: 'transform' }}>
+            <iframe
+              loading="lazy"
+              style={{ position: 'absolute', width: '100%', height: '100%', top: 0, left: 0, border: 'none', padding: 0, margin: 0 }}
+              src="https://www.canva.com/design/DAGdv-QtF0g/svUF7YVOIFS9m2GO5yVnwA/view?embed"
+              allowfullscreen="allowfullscreen"
+              allow="fullscreen"
+              title="Mohamed Saud Alromaihi's Profile Picture"
+            />
+          </div>
+        </div>
+
+        <div className='text-center mb-4'>
           <h2 className='text-2xl font-bold'>MOHAMED SAUD ALROMAIHI</h2>
           <p>
             <strong>Contact:</strong> alromaihi2224@gmail.com | 37925259 | msr7799
@@ -91,7 +104,7 @@ const AboutMePage = () => {
         <div className='mt-4 text-center'>
           <a
             href='https://e-commerce-website-full-stack.onrender.com'
-            className='inline-block bg-green-500 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded'
+            className='inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'
             target='_blank'
             rel='noopener noreferrer'
           >

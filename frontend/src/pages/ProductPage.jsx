@@ -58,7 +58,7 @@ const ProductPage = () => {
   if (!productId) return <div>Loading...</div>;
 
   return (
-    <div className='container mx-auto px-4 py-16'>
+    <div className='container mx-auto mt-42 px-4 py-16'>
       <div className='flex  flex-col lg:flex-row'>
         <div className='  backdrop-blur-3xl lg:w-1/2:pl-8'>
           <img

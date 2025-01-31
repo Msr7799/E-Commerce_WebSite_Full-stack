@@ -9,7 +9,7 @@ const SearchPage = ({ isDarkMode }) => {
     const { data: products, isLoading } = useSearchProducts(query);
 
     return (
-        <div className={`min-h-screen pt-20 ${isDarkMode ? 'text-light' : 'text-dark'}`}>
+        <div className={`min-h-screen pt-20 mt-24 ${isDarkMode ? 'text-light' : 'text-dark'}`}>
             <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16'>
                 <h1 className={`text-center text-5xl font-bold mb-8 ${isDarkMode ? 'text-white' : 'text-black'}`}>
                     Search Results for "{query}"
