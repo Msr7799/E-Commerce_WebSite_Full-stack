@@ -3,10 +3,19 @@
 ![E-Commerce](./MERN2.png)
 
 **Welcome to our E-Commerce Store Website!**
+<p align="center>
+🌐 **Live Site:** [E-Commerce Store 🛒](https://e-commerce-website-full-stack.onrender.com)
+</p>
 
 ## About This App
 
-Welcome to our E-Commerce Store! This app offers a seamless shopping experience with easy project setup and robust security features. Enjoy smooth MongoDB and Redis integration, along with a secure authentication system using JWT with refresh/access tokens. Users can effortlessly register and log in, manage products and categories, and utilize an intuitive shopping cart. Checkout is hassle-free with Stripe, and the app supports flexible coupon codes. Admins have access to a powerful dashboard with detailed sales analytics. The stylish design is powered by Tailwind, and the app ensures enhanced security and robust data protection. Experience fast caching with Redis and much more!
+Welcome to our E-Commerce Store! This app offers a seamless shopping experience with easy project setup and robust security features.
+
+Enjoy smooth MongoDB and Redis integration, along with a secure authentication system using JWT with refresh/access tokens. Users can effortlessly register and log in, manage products and categories, and utilize an intuitive shopping cart.
+
+Checkout is hassle-free with Stripe, and the app supports flexible coupon codes. Admins have access to a powerful dashboard with detailed sales analytics.
+
+The stylish design is powered by Tailwind, and the app ensures enhanced security and robust data protection. Experience fast caching with Redis and much more!
 
 - 🚀 Easy Project Setup
 - 🗄️ Seamless MongoDB & Redis Integration
@@ -28,7 +37,7 @@ Welcome to our E-Commerce Store! This app offers a seamless shopping experience 
 - 🚀 Fast Caching with Redis
 - ⌛ And much more...
 
-## Setup .env file
+## Setting Up the Environment Variables
 
 ```bash
 PORT=5000
