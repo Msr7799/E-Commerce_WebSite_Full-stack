@@ -10,21 +10,15 @@ const CustomCarousel = () => {
   useEffect(() => {
     const initializeCarousel = async () => {
       try {
-        // انتظر قليلاً للتأكد من تحميل العنصر
-        await new Promise(resolve => setTimeout(resolve, 100));
-        
         const carouselElement = document.querySelector('#carouselBasicExample');
         
         if (!carouselElement) {
-          console.warn('عنصر الـ carousel غير موجود بعد، سيتم المحاولة مرة أخرى...');
-          return;
+          throw new Error('عنصر الـ carousel غير موجود');
         }
 
         // التحقق من تحميل مكتبة MDB
         if (typeof Carousel === 'undefined') {
-          console.warn('مكتبة Carousel غير محملة، سيتم تجاهل التهيئة المتقدمة');
-          setIsLoading(false);
-          return;
+          throw new Error('مكتبة Carousel غير محملة');
         }
 
         // تهيئة الـ carousel
@@ -36,7 +30,6 @@ const CustomCarousel = () => {
         
         await initMDB({ Carousel });
         setIsLoading(false);
-        console.log('✅ تم تهيئة الـ carousel بنجاح');
         
       } catch (error) {
         console.error("خطأ في تهيئة الـ carousel:", error);
@@ -45,13 +38,12 @@ const CustomCarousel = () => {
       }
     };
 
-    // انتظار تحميل المكون قبل التهيئة
-    const timer = setTimeout(initializeCarousel, 200);
-    
+    initializeCarousel();
+
+    // Cleanup function
     return () => {
-      clearTimeout(timer);
       const carouselElement = document.querySelector('#carouselBasicExample');
-      if (carouselElement && typeof Carousel !== 'undefined') {
+      if (carouselElement) {
         const instance = Carousel.getInstance(carouselElement);
         if (instance) {
           instance.dispose();

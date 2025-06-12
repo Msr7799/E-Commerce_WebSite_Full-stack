@@ -4,21 +4,31 @@ import { Link } from "react-router-dom";
 import { useCartStore } from "../stores/useCartStore";
 import axios from "../lib/axios";
 import Confetti from "react-confetti";
+import LoadingSpinner from "../components/LoadingSpinner";
+import toast from "react-hot-toast";
 
 const PurchaseSuccessPage = () => {
 	const [isProcessing, setIsProcessing] = useState(true);
 	const { clearCart } = useCartStore();
 	const [error, setError] = useState(null);
-
 	useEffect(() => {
 		const handleCheckoutSuccess = async (sessionId) => {
 			try {
-				await axios.post("/payments/checkout-success", {
+				const response = await axios.post("/payments/checkout-success", {
 					sessionId,
 				});
-				clearCart();
+				
+				if (response.data.success) {
+					clearCart();
+					toast.success("تم تأكيد عملية الشراء بنجاح!");
+				} else {
+					throw new Error(response.data.message || "فشل في تأكيد عملية الشراء");
+				}
 			} catch (error) {
-				console.log(error);
+				console.error("خطأ في تأكيد عملية الشراء:", error);
+				const errorMessage = error.response?.data?.message || error.message || "فشل في تأكيد عملية الشراء";
+				setError(errorMessage);
+				toast.error(errorMessage);
 			} finally {
 				setIsProcessing(false);
 			}
@@ -29,13 +39,45 @@ const PurchaseSuccessPage = () => {
 			handleCheckoutSuccess(sessionId);
 		} else {
 			setIsProcessing(false);
-			setError("No session ID found in the URL");
+			const errorMsg = "معرف الجلسة غير موجود في الرابط";
+			setError(errorMsg);
+			toast.error(errorMsg);
 		}
 	}, [clearCart]);
+	if (isProcessing) {
+		return (
+			<div className="min-h-screen flex items-center justify-center">
+				<LoadingSpinner />
+			</div>
+		);
+	}
 
-	if (isProcessing) return "Processing...";
-
-	if (error) return `Error: ${error}`;
+	if (error) {
+		return (
+			<div className="min-h-screen flex items-center justify-center px-4">
+				<div className="max-w-md w-full bg-gray-800 rounded-lg shadow-xl p-6 text-center">
+					<div className="text-red-500 text-6xl mb-4">⚠️</div>
+					<h1 className="text-2xl font-bold text-red-400 mb-4">حدث خطأ</h1>
+					<p className="text-gray-300 mb-6">{error}</p>
+					<div className="space-y-3">
+						<button
+							onClick={() => window.location.reload()}
+							className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+						>
+							إعادة المحاولة
+						</button>
+						<Link
+							to="/cart"
+							className="w-full bg-gray-700 hover:bg-gray-600 text-blue-400 font-bold py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center"
+						>
+							العودة إلى السلة
+							<ArrowRight className="ml-2" size={18} />
+						</Link>
+					</div>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className='h-screen flex mt-42 items-center justify-center px-4'>

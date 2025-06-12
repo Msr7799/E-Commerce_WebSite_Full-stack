@@ -27,28 +27,49 @@ export const searchProducts = async (req, res) => {
 
 export const getFeaturedProducts = async (req, res) => {
     try {
-        let featuredProducts = await redis.get("featured_products");
-        if (featuredProducts) {
-            return res.json(JSON.parse(featuredProducts));
+        console.log('📝 Getting featured products...');
+        
+        let featuredProducts;
+        
+        // التحقق من Redis إذا كان متاحاً
+        if (redis) {
+            console.log('🔍 Checking Redis cache...');
+            featuredProducts = await redis.get("featured_products");
+            if (featuredProducts) {
+                console.log('✅ Found in Redis cache');
+                return res.json(JSON.parse(featuredProducts));
+            }
+        } else {
+            console.log('⚠️ Redis not available, fetching from database');
         }
 
-        // if not in redis, fetch from mongodb
-        // .lean() is gonna return a plain javascript object instead of a mongodb document
-        // which is good for performance
+        // if not in redis or redis not available, fetch from mongodb
+        console.log('🔍 Fetching from MongoDB...');
         featuredProducts = await Product.find({ isFeatured: true }).lean();
+        
+        console.log(`📊 Found ${featuredProducts ? featuredProducts.length : 0} featured products`);
 
-        if (!featuredProducts) {
-            return res.status(404).json({ message: "No featured products found" });
+        if (!featuredProducts || featuredProducts.length === 0) {
+            console.log('⚠️ No featured products found, returning all products...');
+            // إذا لم توجد منتجات مميزة، أرجع أول 6 منتجات
+            featuredProducts = await Product.find({}).limit(6).lean();
+            console.log(`📊 Returning ${featuredProducts.length} products as featured`);
         }
 
-        // store in redis for future quick access
-
-        await redis.set("featured_products", JSON.stringify(featuredProducts));
+        // store in redis for future quick access (only if redis is available)
+        if (redis && featuredProducts.length > 0) {
+            await redis.set("featured_products", JSON.stringify(featuredProducts));
+            console.log('✅ Cached in Redis');
+        }
 
         res.json(featuredProducts);
     } catch (error) {
-        console.log("Error in getFeaturedProducts controller", error.message);
-        res.status(500).json({ message: "Server error", error: error.message });
+        console.log("❌ Error in getFeaturedProducts controller", error);
+        console.log("❌ Error stack:", error.stack);
+        res.status(500).json({ 
+            message: "Server error", 
+            error: process.env.NODE_ENV === 'development' ? error.message : "Internal server error" 
+        });
     }
 };
 
@@ -161,9 +182,16 @@ async function updateFeaturedProductsCache() {
         // The lean() method  is used to return plain JavaScript objects instead of full Mongoose documents. This can significantly improve performance
 
         const featuredProducts = await Product.find({ isFeatured: true }).lean();
-        await redis.set("featured_products", JSON.stringify(featuredProducts));
+        
+        // Update Redis cache only if Redis is available
+        if (redis) {
+            await redis.set("featured_products", JSON.stringify(featuredProducts));
+            console.log("✅ Updated featured products cache");
+        } else {
+            console.log("⚠️ Redis not available, skipping cache update");
+        }
     } catch (error) {
-        console.log("error in update cache function");
+        console.log("❌ Error in update cache function:", error.message);
     }
 }
 

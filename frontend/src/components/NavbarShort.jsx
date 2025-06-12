@@ -15,7 +15,7 @@ const NavbarShort = ({ user, isAdmin, logout, onSearch, isDarkMode, toggleTheme 
       navigate(`/search/${searchQuery}`);
     };
     return (
-        <nav id="nav" className='fixed h-20 top-4 left-1/2 mt-20 transform -translate-x-1/2  bg-gray-950 bg-opacity-55 backdrop-blur-3xl px-6 py-3 rounded-full flex items-center justify-between space-x-6 shadow-inherit shadow-2xl border-4 border-gray-300 w-full max-w-5xl'>
+        <nav className='fixed h-20 top-4 left-1/2 mt-20 transform -translate-x-1/2 bg-nav-gradient backdrop-blur-3xl px-6 py-3 rounded-full flex items-center justify-between space-x-6 shadow-2xl border-4 border-gray-300 w-full max-w-5xl transition-all duration-300 hover:shadow-glow'>
          
             <div className='flex items-center space-x-2'>
                 <Link

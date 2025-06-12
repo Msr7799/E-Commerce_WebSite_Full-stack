@@ -14,25 +14,48 @@ export const useUserStore = create((set, get) => ({
 			set({ loading: false });
 			return toast.error("Passwords do not match");
 		}
-
 		try {
 			const res = await axios.post("/auth/signup", { name, email, password });
 			set({ user: res.data, loading: false });
+			toast.success("تم إنشاء الحساب بنجاح!");
 		} catch (error) {
 			set({ loading: false });
-			toast.error(error.response.data.message || "An error occurred");
+			console.error("Signup error:", error);
+			
+			// معالجة الأخطاء المختلفة
+			if (error.response) {
+				// خطأ من الخادم
+				toast.error(error.response.data.message || "خطأ في إنشاء الحساب");
+			} else if (error.request) {
+				// خطأ في الشبكة
+				toast.error("فشل في الاتصال بالخادم. تحقق من اتصال الإنترنت.");
+			} else {
+				// خطأ آخر
+				toast.error("حدث خطأ غير متوقع");
+			}
 		}
 	},
 	login: async (email, password) => {
 		set({ loading: true });
-
 		try {
 			const res = await axios.post("/auth/login", { email, password });
-
 			set({ user: res.data, loading: false });
+			toast.success("تم تسجيل الدخول بنجاح!");
 		} catch (error) {
 			set({ loading: false });
-			toast.error(error.response.data.message || "An error occurred");
+			console.error("Login error:", error);
+			
+			// معالجة الأخطاء المختلفة
+			if (error.response) {
+				// خطأ من الخادم
+				toast.error(error.response.data.message || "خطأ في تسجيل الدخول");
+			} else if (error.request) {
+				// خطأ في الشبكة
+				toast.error("فشل في الاتصال بالخادم. تحقق من اتصال الإنترنت.");
+			} else {
+				// خطأ آخر
+				toast.error("حدث خطأ غير متوقع");
+			}
 		}
 	},
 

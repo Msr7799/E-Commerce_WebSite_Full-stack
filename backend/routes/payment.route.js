@@ -1,10 +1,14 @@
 import express from "express";
 import { protectRoute } from "../middleware/auth.middleware.js";
-import { checkoutSuccess, createCheckoutSession } from "../controllers/payment.controller.js";
+// إعادة توجيه إلى order controller للدفع عند الاستلام
+import { createOrder } from "../controllers/order.controller.js";
 
 const router = express.Router();
 
-router.post("/create-checkout-session", protectRoute, createCheckoutSession);
-router.post("/checkout-success", protectRoute, checkoutSuccess);
+// توجيه طلبات الدفع إلى نظام الطلبات الجديد
+router.post("/create-checkout-session", protectRoute, createOrder);
+router.post("/checkout-success", protectRoute, (req, res) => {
+  res.json({ success: true, message: "نظام الدفع عند الاستلام نشط" });
+});
 
 export default router;

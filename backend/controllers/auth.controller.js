@@ -1,4 +1,3 @@
-import { redis } from "../lib/redis.js";
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
@@ -15,7 +14,13 @@ const generateTokens = (userId) => {
 };
 
 const storeRefreshToken = async (userId, refreshToken) => {
-	await redis.set(`refresh_token:${userId}`, refreshToken, "EX", 7 * 24 * 60 * 60); // 7days
+	try {
+		// Redis is optional - app will work without it
+		console.log(`📝 Storing refresh token for user: ${userId}`);
+		// For now, we'll just log it since Redis is not available
+	} catch (error) {
+		console.log('❌ Error storing refresh token:', error);
+	}
 };
 
 const setCookies = (res, accessToken, refreshToken) => {
@@ -36,19 +41,42 @@ const setCookies = (res, accessToken, refreshToken) => {
 export const signup = async (req, res) => {
 	const { email, password, name } = req.body;
 	try {
+		console.log('📝 Signup attempt for:', email);
+		console.log('📋 Request body:', { email, name, passwordProvided: !!password });
+		
+		// التحقق من البيانات المدخلة
+		if (!email || !password || !name) {
+			console.log('❌ Missing required fields');
+			return res.status(400).json({ message: "جميع الحقول مطلوبة" });
+		}
+
+		// التحقق من طول كلمة المرور
+		if (password.length < 6) {
+			console.log('❌ Password too short');
+			return res.status(400).json({ message: "كلمة المرور يجب أن تكون 6 أحرف على الأقل" });
+		}
+
+		console.log('🔍 Checking if user exists...');
 		const userExists = await User.findOne({ email });
 
 		if (userExists) {
-			return res.status(400).json({ message: "User already exists" });
+			console.log('❌ User already exists');
+			return res.status(400).json({ message: "المستخدم موجود بالفعل" });
 		}
+		
+		console.log('✅ Creating new user...');
 		const user = await User.create({ name, email, password });
+		console.log('✅ User created successfully:', user._id);
 
 		// authenticate
+		console.log('🔑 Generating tokens...');
 		const { accessToken, refreshToken } = generateTokens(user._id);
 		await storeRefreshToken(user._id, refreshToken);
 
+		console.log('🍪 Setting cookies...');
 		setCookies(res, accessToken, refreshToken);
 
+		console.log('✅ Signup successful for:', email);
 		res.status(201).json({
 			_id: user._id,
 			name: user.name,
@@ -56,8 +84,27 @@ export const signup = async (req, res) => {
 			role: user.role,
 		});
 	} catch (error) {
-		console.log("Error in signup controller", error.message);
-		res.status(500).json({ message: error.message });
+		console.log("❌ Error in signup controller", error);
+		console.log("❌ Error stack:", error.stack);
+		
+		// معالجة أخطاء MongoDB المحددة
+		if (error.name === 'ValidationError') {
+			const validationErrors = Object.values(error.errors).map(err => err.message);
+			return res.status(400).json({ 
+				message: "خطأ في التحقق من البيانات", 
+				errors: validationErrors 
+			});
+		}
+		
+		if (error.code === 11000) {
+			return res.status(400).json({ message: "البريد الإلكتروني مستخدم بالفعل" });
+		}
+		
+		// خطأ عام
+		res.status(500).json({ 
+			message: "خطأ في الخادم", 
+			error: process.env.NODE_ENV === 'development' ? error.message : "خطأ داخلي في الخادم" 
+		});
 	}
 };
 
@@ -90,16 +137,21 @@ export const logout = async (req, res) => {
 	try {
 		const refreshToken = req.cookies.refreshToken;
 		if (refreshToken) {
-			const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-			await redis.del(`refresh_token:${decoded.userId}`);
+			try {
+				const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+				// Redis is optional - app will work without it
+				console.log(`📝 Logout for user: ${decoded.userId}`);
+			} catch (tokenError) {
+				console.log('❌ Invalid refresh token during logout:', tokenError.message);
+			}
 		}
 
 		res.clearCookie("accessToken");
 		res.clearCookie("refreshToken");
-		res.json({ message: "Logged out successfully" });
+		res.json({ message: "تم تسجيل الخروج بنجاح" });
 	} catch (error) {
-		console.log("Error in logout controller", error.message);
-		res.status(500).json({ message: "Server error", error: error.message });
+		console.log("❌ Error in logout controller", error.message);
+		res.status(500).json({ message: "خطأ في الخادم", error: error.message });
 	}
 };
 
@@ -109,15 +161,14 @@ export const refreshToken = async (req, res) => {
 		const refreshToken = req.cookies.refreshToken;
 
 		if (!refreshToken) {
-			return res.status(401).json({ message: "No refresh token provided" });
+			return res.status(401).json({ message: "لم يتم توفير رمز التحديث" });
 		}
 
 		const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-		const storedToken = await redis.get(`refresh_token:${decoded.userId}`);
-
-		if (storedToken !== refreshToken) {
-			return res.status(401).json({ message: "Invalid refresh token" });
-		}
+		
+		// Since we don't have Redis, we'll skip the stored token verification
+		// In production, you should implement a proper token blacklist system
+		console.log(`📝 Refreshing token for user: ${decoded.userId}`);
 
 		const accessToken = jwt.sign({ userId: decoded.userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
 
@@ -128,17 +179,30 @@ export const refreshToken = async (req, res) => {
 			maxAge: 15 * 60 * 1000,
 		});
 
-		res.json({ message: "Token refreshed successfully" });
+		res.json({ message: "تم تحديث الرمز بنجاح" });
 	} catch (error) {
-		console.log("Error in refreshToken controller", error.message);
-		res.status(500).json({ message: "Server error", error: error.message });
+		console.log("❌ Error in refreshToken controller", error.message);
+		res.status(500).json({ message: "خطأ في الخادم", error: error.message });
 	}
 };
 
 export const getProfile = async (req, res) => {
 	try {
-		res.json(req.user);
+		console.log('📝 Getting profile for user:', req.user?._id);
+		
+		if (!req.user) {
+			return res.status(401).json({ message: "غير مصرح له بالوصول" });
+		}
+
+		// إرجاع بيانات المستخدم
+		res.json({
+			_id: req.user._id,
+			name: req.user.name,
+			email: req.user.email,
+			role: req.user.role,
+		});
 	} catch (error) {
-		res.status(500).json({ message: "Server error", error: error.message });
+		console.log("❌ Error in getProfile controller", error.message);
+		res.status(500).json({ message: "خطأ في الخادم", error: error.message });
 	}
 };
